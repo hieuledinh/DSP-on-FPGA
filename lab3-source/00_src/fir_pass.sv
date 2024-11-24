@@ -1,4 +1,4 @@
-module fir_high (
+module fir_pass (
     clk,
     reset_n,
     data_in,
@@ -16,8 +16,8 @@ module fir_high (
   // logic signed [N_coeff-1:0] b [0:8] = '{16'h1,16'h2,16'h1,16'h1};
   // logic signed [N_coeff-1:0] b [0:8] = '{16'h04F6,16'h0AE4,16'h1089,16'h1496,16'h106F,16'h1496,16'h1089,16'h0AE4,16'h04F6};
 
-  // fir filter high fix 
-  // 4kHz - 20kHz (bandpass)
+  // fir filter pass fix 
+  // 20Hz - 250Hz (bandpass)
   logic signed [N_coeff-1:0] b[N_taps-1:0] = '{
       16'h0014,
       16'h001A,

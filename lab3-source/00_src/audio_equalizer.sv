@@ -12,6 +12,8 @@ module audio_equalizer (
   logic signed [31:0] gain_out_bass, gain_out_mid, gain_out_high;
   logic signed [31:0] sum_out;
 
+  // gain Q1.7 format 
+
   always @(posedge clk or posedge reset_n) begin
     if (reset) begin
       gain_bass <= 8'b10000000;
