@@ -1,0 +1,167 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test
+vDFF
+Z0 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+Z1 !s110 1728316216
+!i10b 1
+!s100 nU27KLNz9R:K;8_]kd6IQ3
+Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
+ITIN[c1UD5?FZRo?TH>I<l3
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+S1
+Z4 dC:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1
+Z5 w1728316192
+Z6 8C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_pipelinedd.sv
+Z7 FC:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_pipelinedd.sv
+!i122 31
+L0 129 16
+Z8 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z9 !s108 1728316216.000000
+Z10 !s107 C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_pipelinedd.sv|
+Z11 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_pipelinedd.sv|
+!i113 1
+Z12 o-work work -sv
+Z13 tCvgOpt 0
+n@d@f@f
+vFIR
+R0
+!s110 1728316146
+!i10b 1
+!s100 >nl>6X?ld9Q`7mhX_>B<m0
+R2
+Ieh`<<l=g0kgnl9;DHT]dR2
+R3
+S1
+R4
+w1728316128
+R6
+R7
+!i122 30
+Z14 L0 1 127
+R8
+r1
+!s85 0
+31
+!s108 1728316146.000000
+R10
+R11
+!i113 1
+R12
+R13
+n@f@i@r
+vFIR_direct
+R0
+!s110 1728314715
+!i10b 1
+!s100 <CloL:X]6:fh5ceBc>E6?2
+R2
+IQ7h5k?MRBBH^kA:bSel?33
+R3
+S1
+R4
+w1728314160
+8C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_direct.sv
+FC:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_direct.sv
+!i122 24
+L0 1 82
+R8
+r1
+!s85 0
+31
+!s108 1728314714.000000
+!s107 C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_direct.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_direct.sv|
+!i113 1
+R12
+R13
+n@f@i@r_direct
+vFIR_pipelined
+R0
+!s110 1728314969
+!i10b 1
+!s100 7aiQ9=hPE[m=JoO9TI=1K2
+R2
+I<O3lP;LX@zMge9SmM89:S0
+R3
+S1
+R4
+w1728314966
+8C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_pipelined.sv
+FC:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_pipelined.sv
+!i122 27
+L0 1 123
+R8
+r1
+!s85 0
+31
+!s108 1728314969.000000
+!s107 C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_pipelined.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_pipelined.sv|
+!i113 1
+R12
+R13
+n@f@i@r_pipelined
+vFIR_pipelinedd
+R0
+R1
+!i10b 1
+!s100 Zco=MgUZ^Ljn;?mK5<6Mh1
+R2
+I[6dlDoFm=aI9FI4gJFJhz2
+R3
+S1
+R4
+R5
+R6
+R7
+!i122 31
+R14
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R12
+R13
+n@f@i@r_pipelinedd
+vFIR_tb_pipe
+R0
+!s110 1728316219
+!i10b 1
+!s100 oao6?=jDQM[OXU^K;7kL02
+R2
+IYo8<j44Mk[eL2SSc]cGdT1
+R3
+S1
+R4
+w1728316207
+8C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_tb_pipe.sv
+FC:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_tb_pipe.sv
+!i122 32
+L0 3 66
+R8
+r1
+!s85 0
+31
+!s108 1728316219.000000
+!s107 C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_tb_pipe.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/test-lab1/FIR_tb_pipe.sv|
+!i113 1
+R12
+R13
+n@f@i@r_tb_pipe
