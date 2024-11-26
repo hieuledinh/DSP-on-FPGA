@@ -39,13 +39,13 @@ module audio_equalizer (
     end
   end
   always_comb begin
-    gain_out_bass = firbass * gain_bass;
+    // gain_out_bass = firbass * gain_bass;
     // gain_out_mid = firmid * gain_mid;
     // gain_out_high = firhigh * gain_high;
 
     // sum_out = gain_out_bass + gain_out_mid + gain_out_high;
 
-    sum_out = gain_out_bass;
+    sum_out  = gain_out_bass;
     // sum_out = gain_out_mid;
     // sum_out = gain_out_high;
 
@@ -59,18 +59,18 @@ module audio_equalizer (
       .data_in(data_in),
       .data_out(firbass)
   );
-  // fir_mid firmid (
-  //     .clk(clk),
-  //     .reset_n(reset_n),
-  //     .data_in(data_in),
-  //     .data_out(firmid)
-  // );
-  // fir_high firhigh (
-  //     .clk(clk),
-  //     .reset_n(reset_n),
-  //     .data_in(data_in),
-  //     .data_out(firhigh)
-  // );
+  fir_mid firmid (
+      .clk(clk),
+      .reset_n(reset_n),
+      .data_in(data_in),
+      .data_out(firmid)
+  );
+  fir_high firhigh (
+      .clk(clk),
+      .reset_n(reset_n),
+      .data_in(data_in),
+      .data_out(firhigh)
+  );
 
   gain_control gaindut (
       .clk (clk),
