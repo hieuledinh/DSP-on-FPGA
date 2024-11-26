@@ -1,4 +1,4 @@
-module fir_pass (
+module fir_bass (
     clk,
     reset_n,
     data_in,

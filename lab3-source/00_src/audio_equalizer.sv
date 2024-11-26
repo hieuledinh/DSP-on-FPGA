@@ -53,7 +53,7 @@ module audio_equalizer (
     data_out = sum_out >>> 7;
   end
 
-  fir_pass firpass (
+  fir_bass firbasss (
       .clk(clk),
       .reset_n(reset_n),
       .data_in(data_in),
