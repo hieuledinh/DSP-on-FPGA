@@ -10,8 +10,8 @@ module audio_equalizer (
   logic [2:0] sw_gain;
   logic [1:0] sw_mode;
 
-  assign sw_gain = 3'b100;
-  assign sw_mode = 2'b01;
+  assign sw_gain = 3'b000;
+  assign sw_mode = 2'b11;
 
   logic [7:0] gain, gain_bass, gain_mid, gain_high;
   logic signed [23:0] firbass, firmid, firhigh;
@@ -20,8 +20,8 @@ module audio_equalizer (
 
   // gain Q1.7 format 
 
-  always @(posedge clk or posedge reset_n) begin
-    if (reset_n) begin
+  always @(posedge clk or negedge reset_n) begin
+    if (!reset_n) begin
       gain_bass <= 8'b10000000;
       gain_mid  <= 8'b10000000;
       gain_high <= 8'b10000000;
@@ -40,12 +40,12 @@ module audio_equalizer (
   end
   always_comb begin
     gain_out_bass = firbass * gain_bass;
-    // gain_out_mid = firmid * gain_mid;
-    // gain_out_high = firhigh * gain_high;
+    gain_out_mid = firmid * gain_mid;
+    gain_out_high = firhigh * gain_high;
 
-    // sum_out = gain_out_bass + gain_out_mid + gain_out_high;
+    sum_out = gain_out_bass + gain_out_mid + gain_out_high;
 
-    sum_out = gain_out_bass;
+    // sum_out = gain_out_bass;
     // sum_out = gain_out_mid;
     // sum_out = gain_out_high;
 
@@ -59,18 +59,18 @@ module audio_equalizer (
       .data_in(data_in),
       .data_out(firbass)
   );
-  // fir_mid firmid (
-  //     .clk(clk),
-  //     .reset_n(reset_n),
-  //     .data_in(data_in),
-  //     .data_out(firmid)
-  // );
-  // fir_high firhigh (
-  //     .clk(clk),
-  //     .reset_n(reset_n),
-  //     .data_in(data_in),
-  //     .data_out(firhigh)
-  // );
+  fir_mid firmidd (
+      .clk(clk),
+      .reset_n(reset_n),
+      .data_in(data_in),
+      .data_out(firmid)
+  );
+  fir_high firhighh (
+      .clk(clk),
+      .reset_n(reset_n),
+      .data_in(data_in),
+      .data_out(firhigh)
+  );
 
   gain_control gaindut (
       .clk (clk),
