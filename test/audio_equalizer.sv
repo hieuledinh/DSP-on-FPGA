@@ -1,11 +1,18 @@
+
 module audio_equalizer (
-    input  logic               clk,
-    reset_n,
-    input  logic        [ 2:0] sw_gain,
-    input  logic        [ 1:0] sw_mode,
-    input  logic signed [23:0] data_in,
-    output logic signed [23:0] data_out
+    input  logic [23:0] data_in,   // Tín hiệu đầu vào
+    output logic        i2s_clk,   // Clock I2S
+    output logic        i2s_ws,    // Word Select
+    output logic        i2s_data,  // Dữ liệu I2S
+    input  logic        clk,       // Clock chính
+    input  logic        reset,
+    input  logic [ 2:0] sw_gain,
+    input  logic [ 1:0] sw_mode    // Reset
 );
+
+  logic [23:0] data_out;
+  logic data_ready;
+
 
   // logic [2:0] sw_gain;
   // logic [1:0] sw_mode;
@@ -45,19 +52,23 @@ module audio_equalizer (
 
     sum_out = gain_out_bass + gain_out_mid + gain_out_high;
 
+    // sum_out = gain_out_bass;
+    // sum_out = gain_out_mid;
+    // sum_out = gain_out_high;
+
 
     data_out = sum_out >>> 7;
   end
 
-  // i2s_controller i2s_inst (
-  //     .clk(clk),
-  //     .reset(reset_n),
-  //     .lrclk(lrclk),
-  //     .bclk(bclk),
-  //     .audio_in(data_in),
-  //     .data_ready(data_ready),
-  //     .audio_out(data_out)
-  // );
+  i2s_interface i2s (
+      .audio_left(data_out),
+      .audio_right(data_out),
+      .clk(clk),
+      .reset(reset),
+      .i2s_clk(i2s_clk),
+      .i2s_ws(i2s_ws),
+      .i2s_data(i2s_data)
+  );
 
   fir_bass firbasss (
       .clk(clk),

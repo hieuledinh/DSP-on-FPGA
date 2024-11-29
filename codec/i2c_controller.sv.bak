@@ -1,0 +1,53 @@
+module i2c_controller (
+    input  logic       clk,    // Clock
+    input  logic       rst_n,  // Reset, active low
+    input  logic       start,  // Start I2C transaction
+    input  logic [7:0] addr,   // I2C Address
+    input  logic [7:0] data,   // Data to send
+    output logic       busy,   // Busy status
+    inout  logic       scl,    // I2C Clock
+    inout  logic       sda     // I2C Data
+);
+  // I2C FSM states
+  typedef enum logic [2:0] {
+    IDLE,
+    START,
+    ADDR,
+    DATA,
+    STOP
+  } state_t;
+
+  state_t state, next_state;
+  logic [3:0] bit_cnt;
+
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) state <= IDLE;
+    else state <= next_state;
+  end
+
+  always_comb begin
+    case (state)
+      IDLE:
+      if (start) next_state = START;
+      else next_state = IDLE;
+      START: next_state = ADDR;
+      ADDR:
+      if (bit_cnt == 7) next_state = DATA;
+      else next_state = ADDR;
+      DATA:
+      if (bit_cnt == 7) next_state = STOP;
+      else next_state = DATA;
+      STOP: next_state = IDLE;
+      default: next_state = IDLE;
+    endcase
+  end
+
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) bit_cnt <= 0;
+    else if (state == ADDR || state == DATA) bit_cnt <= bit_cnt + 1;
+    else bit_cnt <= 0;
+  end
+
+  // Implement SCL and SDA generation logic here...
+
+endmodule

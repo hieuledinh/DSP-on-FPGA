@@ -1,11 +1,20 @@
-module audio_equalizer (
+module topmodel (
     input  logic               clk,
     reset_n,
+    input  logic               lrclk,     // Left-right clock (I2S)
+    input  logic               bclk,
     input  logic        [ 2:0] sw_gain,
     input  logic        [ 1:0] sw_mode,
-    input  logic signed [23:0] data_in,
-    output logic signed [23:0] data_out
+    // input  logic signed [23:0] data_in,
+    output logic signed [23:0] data_out,
+    inout  logic               i2c_sda,   // I2C data line
+    output logic               i2c_scl,
+    
 );
+
+  logic [23:0] data_in;
+  logic data_ready;
+  logic config_done;
 
   // logic [2:0] sw_gain;
   // logic [1:0] sw_mode;
@@ -38,26 +47,44 @@ module audio_equalizer (
       endcase
     end
   end
-  always_comb begin
-    gain_out_bass = firbass * gain_bass;
-    gain_out_mid = firmid * gain_mid;
-    gain_out_high = firhigh * gain_high;
 
-    sum_out = gain_out_bass + gain_out_mid + gain_out_high;
+  always_ff @(posedge clk or posedge reset) begin
+    if (reset) begin
+      data_out <= 0;
+    end else if (config_done) begin
+      gain_out_bass = firbass * gain_bass;
+      gain_out_mid = firmid * gain_mid;
+      gain_out_high = firhigh * gain_high;
+
+      sum_out = gain_out_bass + gain_out_mid + gain_out_high;
+
+      // sum_out = gain_out_bass;
+      // sum_out = gain_out_mid;
+      // sum_out = gain_out_high;
 
 
-    data_out = sum_out >>> 7;
+      data_out = sum_out >>> 7;
+    end
   end
 
-  // i2s_controller i2s_inst (
-  //     .clk(clk),
-  //     .reset(reset_n),
-  //     .lrclk(lrclk),
-  //     .bclk(bclk),
-  //     .audio_in(data_in),
-  //     .data_ready(data_ready),
-  //     .audio_out(data_out)
-  // );
+
+  i2s_controller i2s_inst (
+      .clk(clk),
+      .reset(reset_n),
+      .lrclk(lrclk),
+      .bclk(bclk),
+      .audio_in(data_in),
+      .data_ready(data_ready),
+      .audio_out(data_out)
+  );
+
+  i2c_controller i2c_inst (
+      .clk(clk),
+      .reset(reset),
+      .i2c_scl(i2c_scl),
+      .i2c_sda(i2c_sda),
+      .config_done(config_done)
+  );
 
   fir_bass firbasss (
       .clk(clk),
