@@ -1,7 +1,9 @@
 module audio_equalizer (
     input  logic               clk,
     reset_n,
-    input  logic        [ 2:0] sw_bass, sw_mid, sw_treble,
+    input  logic        [ 2:0] sw_bass,
+    sw_mid,
+    sw_treble,
     input  logic signed [23:0] data_in,
     output logic signed [23:0] data_out
 );
@@ -26,10 +28,10 @@ module audio_equalizer (
       gain_out_bass = firbass * gain_bass;
       gain_out_mid = firmid * gain_mid;
       gain_out_high = firhigh * gain_treble;
-    
+
       sum_out = gain_out_bass + gain_out_mid + gain_out_high;
-    
-    
+
+
       data_out = sum_out >>> 7;
     end
   end
@@ -55,12 +57,12 @@ module audio_equalizer (
   );
 
   gain_control gaindut (
-      .clk (clk),
-      .sw_bass (sw_bass),
-      .sw_mid (sw_mid),
-      .sw_treble (sw_treble),
-      .gain_bass(gain_bass)
-      .gain_mid(gain_mid)
+      .clk(clk),
+      .sw_bass(sw_bass),
+      .sw_mid(sw_mid),
+      .sw_treble(sw_treble),
+      .gain_bass(gain_bass),
+      .gain_mid(gain_mid),
       .gain_treble(gain_treble)
   );
 
