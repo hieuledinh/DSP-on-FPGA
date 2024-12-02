@@ -1,8 +1,8 @@
 `timescale 1ns / 1ns
 
 module FIR_tb_pipe ();
-  localparam FILE_PATH = "/home/hieuld/Documents/fpga/EE3041_DSPonFPGA-main/Lab1/samples/audio.hex";
-  localparam OUT_PATH  = "/home/hieuld/Documents/fpga/EE3041_DSPonFPGA-main/Lab1/samples/audio_bass.hex";
+  localparam FILE_PATH ="C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/EE3041_DSPonFPGA-main/Lab1/samples/audio.hex";
+  localparam OUT_PATH  = "C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/EE3041_DSPonFPGA-main/Lab1/samples/audio_treble.hex";
   localparam FREQ = 100_000_000;
 
   localparam WD_IN = 24;  // Data width
@@ -29,7 +29,7 @@ module FIR_tb_pipe ();
   //     .data_outt(data_out)
   // );
 
-  audio_equalizer dut (
+  fir_high dut (
       .clk     (clk),
       .reset_n (reset_n),
       .data_in (data_in),

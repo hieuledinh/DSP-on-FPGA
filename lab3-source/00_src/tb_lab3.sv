@@ -2,7 +2,7 @@
 
 module tb_lab3 ();
   localparam FILE_PATH = "C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/EE3041_DSPonFPGA-main/Lab1/samples/audio.hex";
-  localparam OUT_PATH  = "C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/EE3041_DSPonFPGA-main/Lab1/samples/audio_test.hex";
+  localparam OUT_PATH  = "C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/EE3041_DSPonFPGA-main/Lab1/samples/audio_test_3011.hex";
   localparam FREQ = 100_000_000;
 
   localparam WD_IN = 24;  // Data width
@@ -20,25 +20,14 @@ module tb_lab3 ();
 
   integer file, status, outfile;
 
-  real analog_in, analog_out;
-  assign analog_in  = $itor($signed(data_in));
-  assign analog_out = $itor($signed(data_out));
-
-  // Instantiate the FIR filter module
-  // FIR_pipelinedd dut (
-  //     .clk      (clk),
-  //     .reset_n  (reset_n),
-  //     .data_in  (data_in),
-  //     .data_outt(data_out)
-  // );
-
+  // Instantiate the DUT
   audio_equalizer dut (
       .clk     (clk),
       .reset_n (reset_n),
-      .data_in (data_in),
-      .data_out(data_out),
       .sw_gain (sw_gain),
-      .sw_mode (sw_mode)
+      .sw_mode (sw_mode),
+      .data_in (data_in),
+      .data_out(data_out)
   );
 
   // Clock generation
@@ -49,45 +38,48 @@ module tb_lab3 ();
     // Initialize inputs
     clk     = 0;
     reset_n = 0;
+    sw_gain = 3'b000;
+    sw_mode = 2'b00;
     data_in = 0;
 
     // Apply reset
-    #PERIOD reset_n = 1;  // Deassert reset after a period
+    #PERIOD reset_n = 1;
 
-    // Read hex file
+    // Open files
     file = $fopen(FILE_PATH, "r");
     outfile = $fopen(OUT_PATH, "w");
     if (file == 0) $error("Hex file not opened");
     if (outfile == 0) $error("Output file not opened");
-    do begin
-      sw_gain = 3'b100;
-      sw_mode = 2'b10;
-      status  = $fscanf(file, "%h", data_in);
 
-      #10;
-      sw_gain = 3'b100;
-      sw_mode = 2'b01;
-      status  = $fscanf(file, "%h", data_in);
+    // Read hex file and test different modes
+    sw_mode = 2'b01;
+    sw_gain = 3'b100;
+    repeat (10) @(posedge clk);
+    sw_mode = 2'b10;
+    sw_gain = 3'b101;
+    repeat (20) @(posedge clk);
 
-      #50;
-      sw_gain = 3'b000;
-      sw_mode = 2'b11;
-      status  = $fscanf(file, "%h", data_in);
+    sw_mode = 2'b11;
+    sw_gain = 3'b011;
+    repeat (15) @(posedge clk);
+    while (!$feof(
+        file
+    )) begin
+    status  = $fscanf(file, "%h", data_in);
+    @(posedge clk);
+    $fdisplay(outfile, "%h", data_out);
+    // end
 
-      @(posedge clk);
-      $fdisplay(outfile, "%h", data_out);
-    end while (status != -1);
-
-    // Wait for a while to observe output
-    #100 $finish;  // Stop simulation after 100 time units
+    // Close files
     $fclose(file);
     $fclose(outfile);
+    $finish;
   end
+end
 
-  // Monitor signals for debugging
+  // Monitor signals
   initial begin
-    $monitor("Time = %0t | Reset = %b | Data In = %h | Data Out = %h", $time, reset_n, data_in,
-             data_out);
+    $monitor("Time=%0t | Reset=%b | Mode=%b | Gain=%b | Data_in=%h | Data_out=%h", $time, reset_n,
+             sw_mode, sw_gain, data_in, data_out);
   end
-
 endmodule
