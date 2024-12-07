@@ -1,8 +1,8 @@
 `timescale 1ns/1ns
 
 module FIR_tb_pipe ();
-  localparam FILE_PATH = "C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/EE3041_DSPonFPGA-main/Lab1/samples/sine.hex";
-  localparam OUT_PATH  = "C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/EE3041_DSPonFPGA-main/Lab1/samples/o_sine.hex";
+  localparam FILE_PATH = "C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/EE3041_DSPonFPGA-main/Lab1/samples/audio.hex";
+  localparam OUT_PATH  = "C:/Users/HieuLD/OneDrive/Documents/hcmut/4th/fpga/EE3041_DSPonFPGA-main/Lab1/samples/output.hex";
   localparam FREQ = 100_000_000;
 
   localparam WD_IN       = 24                ; // Data width

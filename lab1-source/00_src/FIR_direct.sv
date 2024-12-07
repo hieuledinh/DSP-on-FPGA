@@ -30,10 +30,10 @@ logic signed [2*N-1:0] multi[0:N_taps-1];
         // DFF DFF1 (clk, 0, x_delay[1], x_delay[2]);
         // DFF DFF2 (clk, 0, x_delay[2], x_delay[3]);
         genvar i;
-        generate;
+        generate
             for (i=0; i< N_taps;i++) begin :dff_block
                 if(i==0) begin
-                DFF DFF0 (
+                my_DFF DFF_inst (
                     .clk(clk),
                     .reset_n(reset_n),
                     .data_in(data_in),
@@ -41,7 +41,7 @@ logic signed [2*N-1:0] multi[0:N_taps-1];
                 );
                 end
                 else begin
-                DFF DFF1 (
+                my_DFF DFF_inst (
                     .clk (clk),
                     .reset_n(reset_n),
                     .data_in(x_delay[i-1]),
@@ -54,7 +54,6 @@ logic signed [2*N-1:0] multi[0:N_taps-1];
   always_ff @(posedge clk or negedge reset_n) begin: mult_block
 	if (!reset_n) begin
         for(int j = 0; j < N_taps; j++) begin
-            x_delay[j] <= 0;
             multi[j] <= 0;
         end
 
@@ -79,21 +78,4 @@ always_comb begin: sum_block
 end
     
     
-endmodule
-
-module DFF(clk, reset_n, data_in, data_delayed);
-parameter N = 24;
-
-input clk, reset_n;
-input logic signed [N-1:0] data_in;
-output logic signed [N-1:0] data_delayed;
-
-always_ff@(posedge clk or negedge reset_n) begin: dff
-    if (!reset_n) begin
-        data_delayed <= 0;
-    end
-    else begin
-        data_delayed <= data_in;
-    end
-end
 endmodule
