@@ -151,17 +151,16 @@ module fir_mid (
 
   genvar i;
   generate
-    ;
     for (i = 0; i < N_taps; i++) begin : dff_block
       if (i == 0) begin
-        DFF DFF0 (
+        my_DFF DFF_inst (
             .clk(clk),
             .reset_n(reset_n),
             .data_in(data_in),
             .data_delayed(x_delay[i])
         );
       end else begin
-        DFF DFF1 (
+        my_DFF DFF_inst (
             .clk(clk),
             .reset_n(reset_n),
             .data_in(x_delay[i-1]),
@@ -174,8 +173,7 @@ module fir_mid (
   always_ff @(posedge clk or negedge reset_n) begin
     if (!reset_n) begin
       for (int j = 0; j < N_taps; j++) begin
-        x_delay[j] <= {24'b0};
-        mullti[j]  <= {48'b0};
+        mullti[j] <= {48'b0};
       end
       add_final <= 0;
     end else begin
@@ -183,10 +181,6 @@ module fir_mid (
       for (int j = 0; j < N_taps; j++) begin
         mullti[j] <= b[j] * x_delay[j];
       end
-
-      add_final = 48'd0;
-      temp_sum  = 48'd0;
-
 
       for (int j = 0; j < N_taps; j++) begin
         temp_sum = temp_sum + mullti[j];
@@ -204,23 +198,3 @@ module fir_mid (
 
 endmodule
 
-module DFF (
-    clk,
-    reset_n,
-    data_in,
-    data_delayed
-);
-  parameter N = 24;
-
-  input clk, reset_n;
-  input logic signed [N-1:0] data_in;
-  output logic signed [N-1:0] data_delayed;
-
-  always_ff @(posedge clk or negedge reset_n) begin
-    if (!reset_n) begin
-      data_delayed <= 0;
-    end else begin
-      data_delayed <= data_in;
-    end
-  end
-endmodule
